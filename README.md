@@ -1,2 +1,2 @@
 # heroes-spa
-aplicación web, creada con ReactJs
+Single Page Aplication creada con ReactJs
