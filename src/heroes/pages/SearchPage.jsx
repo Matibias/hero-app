@@ -4,6 +4,7 @@ import queryString from 'query-string'
 
 import { useForm } from "../../hook/useForm";
 import { HeroCard } from "../components";
+import { getHeroByName } from "../helpers";
 
 export const SearchPage = () => {
 
@@ -11,15 +12,18 @@ export const SearchPage = () => {
   const location = useLocation(); // para obtener la localizacion de donde estamos (query)
 
   const {q = ''} = queryString.parse(location.search) // queryString para parsear la query
+  const heroes = getHeroByName(q)
 
+  const showSearch = (q.length === 0)
+  const showError = (q.length > 0) && (heroes.length === 0)
 
   const { searchText, onInputChange } = useForm({
-    searchText: ''
+    searchText: q
   });
 
   const onSearchSubmit = (event) => {
     event.preventDefault();
-    if (searchText.trim() <=1) return;
+    // if (searchText.trim() <=1) return;
 
     navigate(`?q=${ searchText.toLowerCase().trim()}`)
   }
@@ -57,16 +61,17 @@ export const SearchPage = () => {
         <h4>Result</h4>
           <hr />
 
-          <div className="alert alert-primary">
+          <div className="alert alert-primary" style={{display:  showSearch ? '' : 'none' }}>
             Search a hero
           </div>
 
-          
-          <div className="alert alert-danger">
+          <div className="alert alert-danger" style={{display: showError ? '' : 'none'}}>
             No hero with <b>{q}</b>
           </div>
 
-          {/* <HeroCard /> */}
+          {
+            heroes.map( hero => ( <HeroCard key={hero.id} {...hero} /> ))
+          }
 
         </div>
       </div>
