@@ -1,10 +1,4 @@
-/* eslint-disable react/react-in-jsx-scope */
-import { useLocation, useNavigate } from "react-router-dom";
-import queryString from 'query-string'
-
-import { useForm } from "../../hook/useForm";
 import { HeroCard } from "../components";
-import { getHeroByName } from "../helpers";
 import { useSearch } from "../hooks/useSearch";
 
 export const SearchPage = () => {
