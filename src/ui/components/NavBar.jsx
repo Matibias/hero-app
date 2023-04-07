@@ -1,14 +1,20 @@
 /* eslint-disable react/react-in-jsx-scope */
 
-import { useContext } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useContext, useMemo } from "react";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../auth/context/AuthContext";
 
 export const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
+  const { pathname, search } = useLocation();
+  const lastPath = useMemo(() => pathname + search, [pathname, search])
+
   const navigate = useNavigate();
 
   const onLogout = () => {
+    
+    localStorage.setItem('lastPath', lastPath);
+    
     logout();
     navigate("/login", {
       replace: true,
